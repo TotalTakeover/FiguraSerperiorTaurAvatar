@@ -1,5 +1,5 @@
 -- Make this variable `false` or delete it if you want to turn off error messages resulting from groups of the same name
-local warn = true
+local warn = false
 
 -- Index a model's or model part's child groups into a table
 local function groupIndex(m, t)
