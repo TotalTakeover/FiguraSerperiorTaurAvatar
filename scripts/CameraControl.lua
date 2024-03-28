@@ -72,7 +72,7 @@ function events.RENDER(delta, context)
 		
 		-- Check for block obstruction
 		local obstructed = false
-		local cameraPos = headPos + vec( 0, 0.2, 0) + client:getCameraDir() * 0.1
+		local cameraPos = headPos + vec(0, 0.2, 0) + client:getCameraDir() * 0.1
 		local blockPos = cameraPos:copy():floor()
 		local block = world.getBlockState(blockPos)
 		local boxes = block:getCollisionShape()
