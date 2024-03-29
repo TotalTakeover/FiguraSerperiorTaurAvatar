@@ -156,11 +156,6 @@ function events.TICK()
 	parts.Elytra:primaryTexture(vanillaSkin and player:hasCape() and (player:isSkinLayerVisible("CAPE") and "CAPE" or "ELYTRA") or "PRIMARY")
 		:secondaryRenderType(player:getItem(5):hasGlint() and "GLINT" or "NONE")
 	
-	--[[
-	-- Disables lower body if player is in spectator mode
-	parts.LowerBody:parentType(player:getGamemode() == "SPECTATOR" and "BODY" or "NONE")
-	--]]
-	
 	-- Layer toggling
 	for layerType, parts in pairs(layer) do
 		local enabled = enabled
