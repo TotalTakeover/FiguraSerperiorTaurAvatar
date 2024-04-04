@@ -9,7 +9,28 @@ local shiny = config:load("ColorShiny") or false
 -- All shiny parts
 local shinyParts = {
 	
+	-- Ears
+	pokemonParts.Ears,
+	pokemonParts.EarsSkull,
 	
+	-- Accessories
+	pokemonParts.NeckLeaves,
+	pokemonParts.LeafArms,
+	pokemonParts.TailLeaf1,
+	pokemonParts.TailLeaf2,
+	pokemonParts.TailLeaf3,
+	
+	-- Tail
+	pokemonParts.Avatar.Neck,
+	pokemonParts.Tail1.Tail,
+	pokemonParts.Tail2.Tail,
+	pokemonParts.Tail3.Tail,
+	pokemonParts.Tail4.Tail,
+	pokemonParts.Tail5.Tail,
+	pokemonParts.Tail6.Tail,
+	pokemonParts.Tail7.Tail,
+	pokemonParts.Tail8.Tail,
+	pokemonParts.Tail9.Tail
 	
 }
 
@@ -19,10 +40,10 @@ local t = {}
 function events.TICK()
 	
 	-- Set colors
-	t.hover     = vectors.hexToRGB(shiny and "FFFFFF" or "FFFFFF")
-	t.active    = vectors.hexToRGB(shiny and "FFFFFF" or "FFFFFF")
-	t.primary   = (shiny and "§r" or "§r").."§l"
-	t.secondary = shiny and "§r" or "§r"
+	t.hover     = vectors.hexToRGB(shiny and "4C8CA7" or "21A64C")
+	t.active    = vectors.hexToRGB(shiny and "DDE791" or "EFC435")
+	t.primary   = (shiny and "§3" or "§2").."§l"
+	t.secondary = shiny and "§e" or "§6"
 	
 	-- Shiny textures
 	local textureType = shiny and textures["textures.serperior_shiny"] or textures["textures.serperior"]
@@ -31,10 +52,10 @@ function events.TICK()
 	end
 	
 	-- Glowing outline
-	renderer:outlineColor(vectors.hexToRGB(shiny and "FFFFFF" or "FFFFFF"))
+	renderer:outlineColor(vectors.hexToRGB(shiny and "4C8CA7" or "21A64C"))
 	
 	-- Avatar color
-	avatar:color(vectors.hexToRGB(shiny and "FFFFFF" or "FFFFFF"))
+	avatar:color(vectors.hexToRGB(shiny and "4C8CA7" or "21A64C"))
 	
 end
 
