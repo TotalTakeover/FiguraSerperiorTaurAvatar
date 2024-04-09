@@ -66,7 +66,16 @@ local layer = {
 		pokemonParts.Cape
 	},
 	LOWER_BODY = {
-		
+		pokemonParts.Neck.Layer,
+		pokemonParts.Tail1.Layer,
+		pokemonParts.Tail2.Layer,
+		pokemonParts.Tail3.Layer,
+		pokemonParts.Tail4.Layer,
+		pokemonParts.Tail5.Layer,
+		pokemonParts.Tail6.Layer,
+		pokemonParts.Tail7.Layer,
+		pokemonParts.Tail8.Layer,
+		pokemonParts.Tail9.Layer
 	}
 }
 
