@@ -1,11 +1,13 @@
 -- Required scripts
 require("lib.GSAnimBlend")
-local pokemonParts = require("lib.GroupIndex")(models.models.SerperiorTaur)
-local ground       = require("lib.GroundCheck")
-local itemCheck    = require("lib.ItemCheck")
-local pose         = require("scripts.Posing")
-local effects      = require("scripts.SyncedVariables")
-local color        = require("scripts.ColorProperties")
+local pokemonParts  = require("lib.GroupIndex")(models.models.SerperiorTaur)
+local pokeballParts = require("lib.GroupIndex")(models.models.Pokeball)
+local ground        = require("lib.GroundCheck")
+local average       = require("lib.Average")
+local itemCheck     = require("lib.ItemCheck")
+local pose          = require("scripts.Posing")
+local effects       = require("scripts.SyncedVariables")
+local color         = require("scripts.ColorProperties")
 
 -- Animations setup
 local anims = animations["models.SerperiorTaur"]
@@ -21,122 +23,47 @@ if idle == nil then idle = true end
 local maxRoll = 225
 
 -- Ingame modifying animations
-local tailRot = {
+local tailRot = {}
+
+-- Create tables for the tail parts
+local function tailSetup(m, n)
 	
-	{
-		seg = pokemonParts.Tail3,
-		pitch = {
-			current    = 0,
-			nextTick   = 0,
-			target     = 0,
-			currentPos = 0
-		},
-		roll = {
-			current    = 0,
-			nextTick   = 0,
-			target     = 0,
-			currentPos = 0
-		},
-		timer = 0
-	},
-	{
-		seg = pokemonParts.Tail4,
-		pitch = {
-			current    = 0,
-			nextTick   = 0,
-			target     = 0,
-			currentPos = 0
-		},
-		roll = {
-			current    = 0,
-			nextTick   = 0,
-			target     = 0,
-			currentPos = 0
-		},
-		timer = 0
-	},
-	{
-		seg = pokemonParts.Tail5,
-		pitch = {
-			current    = 0,
-			nextTick   = 0,
-			target     = 0,
-			currentPos = 0
-		},
-		roll = {
-			current    = 0,
-			nextTick   = 0,
-			target     = 0,
-			currentPos = 0
-		},
-		timer = 0
-	},
-	{
-		seg = pokemonParts.Tail6,
-		pitch = {
-			current    = 0,
-			nextTick   = 0,
-			target     = 0,
-			currentPos = 0
-		},
-		roll = {
-			current    = 0,
-			nextTick   = 0,
-			target     = 0,
-			currentPos = 0
-		},
-		timer = 0
-	},
-	{
-		seg = pokemonParts.Tail7,
-		pitch = {
-			current    = 0,
-			nextTick   = 0,
-			target     = 0,
-			currentPos = 0
-		},
-		roll = {
-			current    = 0,
-			nextTick   = 0,
-			target     = 0,
-			currentPos = 0
-		},
-		timer = 0
-	},
-	{
-		seg = pokemonParts.Tail8,
-		pitch = {
-			current    = 0,
-			nextTick   = 0,
-			target     = 0,
-			currentPos = 0
-		},
-		roll = {
-			current    = 0,
-			nextTick   = 0,
-			target     = 0,
-			currentPos = 0
-		},
-		timer = 0
-	},
-	{
-		seg = pokemonParts.Tail9,
-		pitch = {
-			current    = 0,
-			nextTick   = 0,
-			target     = 0,
-			currentPos = 0
-		},
-		roll = {
-			current    = 0,
-			nextTick   = 0,
-			target     = 0,
-			currentPos = 0
-		},
-		timer = 0
-	},
+	if n == nil then n = 0 end
+	n = n + 1
 	
-}
+	tailRot[n] = {
+		seg = m,
+		pitch = {
+			current    = 0,
+			nextTick   = 0,
+			target     = 0,
+			currentPos = 0
+		},
+		roll = {
+			current    = 0,
+			nextTick   = 0,
+			target     = 0,
+			currentPos = 0
+		},
+		timer = 0
+	}
+	
+	local c = m:getChildren()
+	
+	for _, p in ipairs(c) do
+		if p:getType() == "GROUP" and p:getName() == "Tail"..tostring(n+3) then
+			tailSetup(p, n)
+		end
+	end
+	
+end
+
+-- Call function
+function events.ENTITY_INIT()
+	
+	tailSetup(pokemonParts.Tail3)
+	
+end
 
 -- Parrot pivots
 local parrots = {
@@ -193,7 +120,6 @@ function events.TICK()
 	local groundIdle = not walking and idle and not anims.coil:isPlaying()
 	local groundWalk = (walking or not idle) and not (pose.swim or pose.elytra or pose.crawl) and not anims.coil:isPlaying()
 	local swim       = pose.swim or pose.elytra or pose.crawl
-	local jump       = vel.y > 0 and not swim
 	local flatten    = onGround
 	local sleep      = pose.sleep
 	local breathe    = true
@@ -202,7 +128,6 @@ function events.TICK()
 	anims.groundIdle:playing(groundIdle)
 	anims.groundWalk:playing(groundWalk)
 	anims.swim:playing(swim)
-	anims.jump:playing(jump)
 	anims.flatten:playing(flatten)
 	anims.sleep:playing(sleep)
 	--anims.breathe:playing(breathe)
@@ -213,10 +138,23 @@ function events.TICK()
 		local pitchLerpSpeed = 0.75
 		
 		-- Pitch rotations
-		if not wrap or not (pose.stand or pose.crouch) or effects.cF or vel:length() ~= 0 or anims.coil:isPlaying() then
+		if average(pokeballParts.Pokeball:getScale():unpack()) >= 0.5 or anims.coil:isPlaying() then
 			
+			pitchLerpSpeed    = 0.5
 			tail.pitch.target = 0
-			pitchLerpSpeed = 0.1
+			
+		elseif not wrap or not (pose.stand or pose.crouch) or effects.cF or vel:length() ~= 0 then
+			
+			pitchLerpSpeed    = 0.5
+			local strength    = math.map(_, 1, #tailRot, #tailRot/2, -#tailRot/2)
+			
+			if pose.elytra then
+				strength = -strength
+			elseif anims.groundIdle:isPlaying() then
+				strength = 2
+			end
+			
+			tail.pitch.target = math.clamp(vel.y * strength * 20, -25, 25)
 			
 		elseif onGround then
 			
@@ -249,11 +187,15 @@ function events.TICK()
 			end
 			
 			if inGround or inAir then
+				
 				tail.timer = math.clamp(tail.timer + 1, 0, 25)
 				local dir = inGround and -1 or 1
-				tail.pitch.target = math.clamp(tail.seg:getRot().x + 0.05 * tail.timer^2 * dir, -90, 90)
+				tail.pitch.target = math.clamp((tail.seg:getRot().x + 0.05 * tail.timer^2 * dir), -90, 90)
+				
 			else
+				
 				tail.timer = 0
+				
 			end
 			
 		end
@@ -346,7 +288,6 @@ local blendAnims = {
 	{ anim = anims.groundIdle, ticks = 7 },
 	{ anim = anims.groundWalk, ticks = 7 },
 	{ anim = anims.swim,       ticks = 7 },
-	{ anim = anims.jump,       ticks = 7 },
 	{ anim = anims.coil,       ticks = 7 },
 	{ anim = anims.flatten,    ticks = 7 }
 }
