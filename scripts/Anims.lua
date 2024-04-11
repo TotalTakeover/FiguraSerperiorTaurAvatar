@@ -129,7 +129,7 @@ function events.TICK()
 	anims.groundWalk:playing(groundWalk)
 	anims.swim:playing(swim)
 	anims.flatten:playing(flatten)
-	anims.sleep:playing(sleep)
+	--anims.sleep:playing(sleep)
 	--anims.breathe:playing(breathe)
 	
 	-- Apply rots to tail
