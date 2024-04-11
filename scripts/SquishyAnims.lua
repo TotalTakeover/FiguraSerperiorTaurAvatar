@@ -10,20 +10,22 @@ local anims = animations["models.SerperiorTaur"]
 local squapiParts = {}
 
 -- Create tables of child parts
-local function children(m, t)
+local function children(m, t, n)
 	
-	if type(t) == "string" then
+	if n == nil then n = 0 end
+	n = n + 1
+	
+	if squapiParts[t] == nil then
 		squapiParts[t] = {}
-		t = squapiParts[t]
 	end
 	
-	table.insert(t, m)
+	table.insert(squapiParts[t], m)
 	
 	local c = m:getChildren()
 	
 	for _, p in ipairs(c) do
-		if p:getType() == "GROUP" then
-			children(p, t)
+		if p:getName() == t..tostring(n+1) then
+			children(p, t, n)
 		end
 	end
 	
@@ -32,10 +34,10 @@ end
 -- Call function
 function events.ENTITY_INIT()
 	
-	children(pokemonParts.NeckLeavesLeft1,  "leftLeaves")
-	children(pokemonParts.NeckLeavesRight1, "rightLeaves")
-	children(pokemonParts.LeftEar1,         "leftEar")
-	children(pokemonParts.RightEar1,        "rightEar")
+	children(pokemonParts.NeckLeavesLeft1,  "NeckLeavesLeft")
+	children(pokemonParts.NeckLeavesRight1, "NeckLeavesRight")
+	children(pokemonParts.LeftEar1,         "LeftEar")
+	children(pokemonParts.RightEar1,        "RightEar")
 	
 end
 
@@ -130,17 +132,17 @@ function events.RENDER(delta, context)
 	local headYRot   = squapi.headY.pos
 
 	-- Apply
-	for _, part in ipairs(squapiParts.leftLeaves) do
-		part:offsetRot(0, (leavesRotY - headYRot) / #squapiParts.leftLeaves, leavesRotZ / #squapiParts.leftLeaves)
+	for _, part in ipairs(squapiParts.NeckLeavesLeft) do
+		part:offsetRot(0, (leavesRotY - headYRot) / #squapiParts.NeckLeavesLeft, leavesRotZ / #squapiParts.NeckLeavesLeft)
 	end
-	for _, part in ipairs(squapiParts.rightLeaves) do
-		part:offsetRot(0, (-leavesRotY - headYRot) / #squapiParts.rightLeaves, -leavesRotZ / #squapiParts.rightLeaves)
+	for _, part in ipairs(squapiParts.NeckLeavesRight) do
+		part:offsetRot(0, (-leavesRotY - headYRot) / #squapiParts.NeckLeavesLeft, -leavesRotZ / #squapiParts.NeckLeavesLeft)
 	end
-	for _, part in ipairs(squapiParts.leftEar) do
-		part:offsetRot((earsRot - headYRot) / #squapiParts.leftEar, 0, 0)
+	for _, part in ipairs(squapiParts.LeftEar) do
+		part:offsetRot((earsRot - headYRot) / #squapiParts.LeftEar, 0, 0)
 	end
-	for _, part in ipairs(squapiParts.rightEar) do
-		part:offsetRot((earsRot + headYRot) / #squapiParts.rightEar, 0, 0)
+	for _, part in ipairs(squapiParts.RightEar) do
+		part:offsetRot((earsRot + headYRot) / #squapiParts.RightEar, 0, 0)
 	end
 	
 	-- Targets
