@@ -20,6 +20,7 @@ if wrap == nil then wrap = true end
 if idle == nil then idle = true end
 
 -- Variable setup
+local maxWrap = 90
 local maxRoll = 225
 
 -- Ingame modifying animations
@@ -33,25 +34,22 @@ local function tailSetup(m, n)
 	
 	tailRot[n] = {
 		seg = m,
-		pitch = {
-			current    = 0,
-			nextTick   = 0,
-			target     = 0,
-			currentPos = 0
+		rot = {
+			prev = vec(0, 0, 0),
+			next = vec(0, 0, 0),
+			curr = vec(0, 0, 0)
 		},
-		roll = {
-			current    = 0,
-			nextTick   = 0,
-			target     = 0,
-			currentPos = 0
-		},
-		timer = 0
+		wrap = {
+			wrapped = false,
+			dir     = 0,
+			speed   = 0
+		}
 	}
 	
 	local c = m:getChildren()
 	
 	for _, p in ipairs(c) do
-		if p:getType() == "GROUP" and p:getName() == "Tail"..tostring(n+3) then
+		if p:getName() == "Tail"..tostring(n+3) then
 			tailSetup(p, n)
 		end
 	end
@@ -135,35 +133,36 @@ function events.TICK()
 	-- Apply rots to tail
 	for _, tail in ipairs(tailRot) do
 		
-		local pitchLerpSpeed = 0.75
+		-- Tick lerps
+		tail.rot.prev.x = tail.rot.next.x
+		tail.rot.prev.y = tail.rot.next.y
+		tail.rot.prev.z = tail.rot.next.z
 		
 		-- Pitch rotations
-		if average(pokeballParts.Pokeball:getScale():unpack()) >= 0.5 or anims.coil:isPlaying() then
+		if not wrap or average(pokeballParts.Pokeball:getScale():unpack()) >= 0.5 or anims.coil:isPlaying() then
 			
-			pitchLerpSpeed    = 0.5
-			tail.pitch.target = 0
+			-- Stop all movement
+			tail.rot.next.x = 0
 			
-		elseif not wrap or not (pose.stand or pose.crouch) or effects.cF or vel:length() ~= 0 then
+		elseif not(pose.stand or pose.crouch) or effects.cF or vel:length() ~= 0 then
 			
-			pitchLerpSpeed    = 0.5
-			local strength    = math.map(_, 1, #tailRot, #tailRot/2, -#tailRot/2)
-			
+			local strength = math.map(_, 1, #tailRot, #tailRot/2, -#tailRot/2)
 			if pose.elytra then
 				strength = -strength
 			elseif anims.groundIdle:isPlaying() then
 				strength = 2
 			end
 			
-			tail.pitch.target = math.clamp(vel.y * strength * 20, -25, 25)
+			tail.rot.next.x = math.lerp(tail.rot.next.x, math.clamp(vel.y * strength * 10, -25, 25), math.clamp(vel:length() == 0 and 0.25 or vel:length() * 4, 0, 1))
 			
 		elseif onGround then
 			
-			local groundPos   = tail.seg:partToWorldMatrix():apply(0, -10, -1)
+			local groundPos   = tail.seg:partToWorldMatrix():apply(0, -10, 0)
 			local blockPos    = groundPos:copy():floor()
 			local groundBlock = world.getBlockState(groundPos)
 			local groundBoxes = groundBlock:getCollisionShape()
 			
-			local airPos   = tail.seg:partToWorldMatrix():apply(0, -10, -4)
+			local airPos   = tail.seg:partToWorldMatrix():apply(0, -10, -3)
 			local airBlock = world.getBlockState(airPos)
 			
 			local inGround = false
@@ -188,30 +187,56 @@ function events.TICK()
 			
 			if inGround or inAir then
 				
-				tail.timer = math.clamp(tail.timer + 1, 0, 25)
-				local dir = inGround and -1 or 1
-				tail.pitch.target = math.clamp((tail.seg:getRot().x + 0.05 * tail.timer^2 * dir), -90, 90)
+				-- Confirm status
+				tail.wrap.wrapped = false
+				
+				-- Check to see if segment is already at maximum rot
+				local isMaxWrap = tail.rot.next.x == maxWrap
+				
+				if isMaxWrap and not inGround then
+					
+					tail.wrap.wrapped = true
+					
+				elseif tailRot[_-1] and not tailRot[_-1].wrap.wrapped then -- Check parent's status
+					
+					-- Fold back to offset parent (Helps to eliminate "Unfolding")
+					tail.rot.next.x = math.lerp(tail.rot.next.x, -tailRot[_-1].rot.next.x, 0.2)
+					
+				else
+					
+					-- Gather rot directions
+					local prevDir = tail.wrap.dir
+					tail.wrap.dir = inGround and -1 or inAir and 1
+					
+					-- Increase speed every tick, but reset if changing direction
+					tail.wrap.speed = math.clamp(tail.wrap.speed + 1, 0, 20)
+					if prevDir ~= tail.wrap.dir then tail.wrap.speed = 0 end
+					
+					-- Calculate change
+					local calc = 0.05 * tail.wrap.speed^2 * tail.wrap.dir
+					tail.rot.next.x = math.clamp(tail.rot.next.x + calc, -maxWrap, maxWrap)
+					
+				end
 				
 			else
 				
-				tail.timer = 0
+				-- Confirm status
+				tail.wrap.wrapped = true
+				
+				-- Reset variables
+				tail.wrap.speed = 0
+				tail.wrap.dir   = 0
 				
 			end
 			
 		end
 		
 		-- Roll rotations
-		--[[
 		if _ ~= 1 then
-			tail.roll.target = fullRoll / #tailRot
+			
+			tail.rot.next.z = fullRoll / #tailRot
+			
 		end
-		--]]
-		
-		-- Tick lerps
-		tail.pitch.current = tail.pitch.nextTick
-		tail.roll.current  = tail.roll.nextTick
-		tail.pitch.nextTick = math.lerp(tail.pitch.nextTick, tail.pitch.target, pitchLerpSpeed)
-		tail.roll.nextTick  = math.lerp(tail.roll.nextTick,  tail.roll.target,  1)
 		
 	end
 	
@@ -245,11 +270,10 @@ function events.RENDER(delta, context)
 	for _, tail in pairs(tailRot) do
 		
 		-- Render lerp
-		tail.pitch.currentPos = math.lerp(tail.pitch.current, tail.pitch.nextTick, delta)
-		tail.roll.currentPos  = math.lerp(tail.roll.current,  tail.roll.nextTick,  delta)
+		tail.rot.curr = math.lerp(tail.rot.prev, tail.rot.next, delta)
 		
 		-- Apply
-		tail.seg:rot(tail.pitch.currentPos, 0, tail.roll.currentPos)
+		tail.seg:rot(tail.rot.curr)
 		
 	end
 	
