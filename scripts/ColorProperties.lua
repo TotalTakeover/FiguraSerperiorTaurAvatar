@@ -21,7 +21,7 @@ local shinyParts = {
 	pokemonParts.TailLeaf3,
 	
 	-- Tail
-	pokemonParts.Avatar.Neck,
+	pokemonParts.Neck.Neck,
 	pokemonParts.Tail1.Tail,
 	pokemonParts.Tail2.Tail,
 	pokemonParts.Tail3.Tail,

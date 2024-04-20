@@ -9,44 +9,81 @@ kattArmor.Armor.Leggings:setLayer(1)
 
 -- Armor parts
 kattArmor.Armor.Helmet
-	:addParts()
-	:addTrimParts()
+	:addParts(pokemonParts.headArmorHelmet.Helmet)
+	:addTrimParts(pokemonParts.headArmorHelmet.Trim)
 kattArmor.Armor.Chestplate
 	:addParts(
-		
+		pokemonParts.bodyArmorChestplate.Chestplate,
+		pokemonParts.leftArmArmorChestplate.Chestplate,
+		pokemonParts.rightArmArmorChestplate.Chestplate,
+		pokemonParts.leftArmArmorChestplateFP.Chestplate,
+		pokemonParts.rightArmArmorChestplateFP.Chestplate
 	)
 	:addTrimParts(
-		
+		pokemonParts.bodyArmorChestplate.Trim,
+		pokemonParts.leftArmArmorChestplate.Trim,
+		pokemonParts.rightArmArmorChestplate.Trim,
+		pokemonParts.leftArmArmorChestplateFP.Trim,
+		pokemonParts.rightArmArmorChestplateFP.Trim
 	)
 kattArmor.Armor.Leggings
 	:addParts(
-		
+		pokemonParts.NeckArmorLeggings.Leggings,
+		pokemonParts.Tail1ArmorLeggings.Leggings,
+		pokemonParts.Tail2ArmorLeggings.Leggings,
+		pokemonParts.Tail3ArmorLeggings.Leggings,
+		pokemonParts.Tail4ArmorLeggings.Leggings,
+		pokemonParts.Tail5ArmorLeggings.Leggings,
+		pokemonParts.Tail6ArmorLeggings.Leggings
 	)
 	:addTrimParts(
-		
+		pokemonParts.NeckArmorLeggings.Trim,
+		pokemonParts.Tail1ArmorLeggings.Trim,
+		pokemonParts.Tail2ArmorLeggings.Trim,
+		pokemonParts.Tail3ArmorLeggings.Trim,
+		pokemonParts.Tail4ArmorLeggings.Trim,
+		pokemonParts.Tail5ArmorLeggings.Trim,
+		pokemonParts.Tail6ArmorLeggings.Trim
 	)
 kattArmor.Armor.Boots
 	:addParts(
-		
+		pokemonParts.Tail7ArmorBoot.Boot,
+		pokemonParts.Tail8ArmorBoot.Boot,
+		pokemonParts.Tail9ArmorBoot.Boot
 	)
 	:addTrimParts(
-		
+		pokemonParts.Tail7ArmorBoot.Trim,
+		pokemonParts.Tail8ArmorBoot.Trim,
+		pokemonParts.Tail9ArmorBoot.Trim
 	)
 
 -- Leather armor
 kattArmor.Materials.leather
 	:setTexture(textures["textures.armor.leatherArmor"])
-	:addParts(kattArmor.Armor.Helmet
-		
+	:addParts(kattArmor.Armor.Helmet,
+		pokemonParts.headArmorHelmet.Leather
 	)
-	:addParts(kattArmor.Armor.Chestplate
+	:addParts(kattArmor.Armor.Chestplate,
+		pokemonParts.bodyArmorChestplate.Leather,
+		pokemonParts.leftArmArmorChestplate.Leather,
+		pokemonParts.rightArmArmorChestplate.Leather,
 		
+		pokemonParts.leftArmArmorChestplateFP.Leather,
+		pokemonParts.rightArmArmorChestplateFP.Leather
 	)
-	:addParts(kattArmor.Armor.Leggings
-		
+	:addParts(kattArmor.Armor.Leggings,
+		pokemonParts.NeckArmorLeggings.Leather,
+		pokemonParts.Tail1ArmorLeggings.Leather,
+		pokemonParts.Tail2ArmorLeggings.Leather,
+		pokemonParts.Tail3ArmorLeggings.Leather,
+		pokemonParts.Tail4ArmorLeggings.Leather,
+		pokemonParts.Tail5ArmorLeggings.Leather,
+		pokemonParts.Tail6ArmorLeggings.Leather
 	)
-	:addParts(kattArmor.Armor.Boots
-		
+	:addParts(kattArmor.Armor.Boots,
+		pokemonParts.Tail7ArmorBoot.Leather,
+		pokemonParts.Tail8ArmorBoot.Leather,
+		pokemonParts.Tail9ArmorBoot.Leather
 	)
 
 -- Chainmail armor
@@ -152,28 +189,41 @@ if boots      == nil then boots      = true end
 -- All helmet parts
 local helmetGroups = {
 	
-	
+	pokemonParts.headArmorHelmet,
+	pokemonParts.HelmetItemPivot
 	
 }
 
 -- All chestplate parts
 local chestplateGroups = {
 	
+	pokemonParts.bodyArmorChestplate,
+	pokemonParts.leftArmArmorChestplate,
+	pokemonParts.rightArmArmorChestplate,
 	
-	
+	pokemonParts.leftArmArmorChestplateFP,
+	pokemonParts.rightArmArmorChestplateFP
 }
 
 -- All leggings parts
 local leggingsGroups = {
 	
-	
+	pokemonParts.NeckArmorLeggings,
+	pokemonParts.Tail1ArmorLeggings,
+	pokemonParts.Tail2ArmorLeggings,
+	pokemonParts.Tail3ArmorLeggings,
+	pokemonParts.Tail4ArmorLeggings,
+	pokemonParts.Tail5ArmorLeggings,
+	pokemonParts.Tail6ArmorLeggings
 	
 }
 
 -- All boots parts
 local bootsGroups = {
 	
-	
+	pokemonParts.Tail7ArmorBoot,
+	pokemonParts.Tail8ArmorBoot,
+	pokemonParts.Tail9ArmorBoot
 	
 }
 
