@@ -394,11 +394,19 @@ t.idlePage = action_wheel:newAction()
 function events.TICK()
 	
 	t.wrapPage
-		:title(color.primary.."Toggle Wrapping\n\n"..color.secondary.."Toggles the ability for your tail to attempt to wrap around surfaces.")
+		:title(toJson
+			{"",
+			{text = "Toggle Wrapping\n\n", bold = true, color = color.primary},
+			{text = "Toggles the ability for your tail to attempt to \"wrap\" around surfaces.", color = color.secondary}}
+		)
 		:hoverColor(color.hover)
 	
 	t.idlePage
-		:title(color.primary.."Toggle Idle animation\n\n"..color.secondary.."Toggles the usage of the animation that plays when you stop moving.\nDisabling this allows you to have more control your tail's positioning.")
+		:title(toJson
+			{"",
+			{text = "Toggle Idle animation\n\n", bold = true, color = color.primary},
+			{text = "Toggles the usage of the animation that plays when you stop moving.\nDisabling this allows you to have more control your tail's positioning.", color = color.secondary}}
+		)
 		:hoverColor(color.hover)
 	
 end
