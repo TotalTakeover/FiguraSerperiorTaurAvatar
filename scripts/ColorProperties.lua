@@ -48,7 +48,7 @@ function events.TICK()
 	-- Shiny textures
 	local textureType = shiny and textures["textures.serperior_shiny"] or textures["textures.serperior"]
 	for _, part in ipairs(shinyParts) do
-		part:primaryTexture("Custom", textureType)
+		--part:primaryTexture("Custom", textureType)
 	end
 	
 	-- Glowing outline

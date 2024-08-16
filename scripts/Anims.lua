@@ -104,11 +104,16 @@ function events.TICK()
 	-- Player variables
 	local vel      = player:getVelocity()
 	local bodyRoll = player:getBodyYaw()
-	local onGround = ground()
+	local onGround = player:isOnGround() or ground()
 	
 	-- Static roll
-	staticRoll = math.clamp(staticRoll, bodyRoll - maxRoll, bodyRoll + maxRoll)
-	staticRoll = math.lerp(staticRoll, bodyRoll, onGround and math.clamp(vel:length(), 0, 1) or 0.25)
+	if not anims.groundIdle:isPlaying() then
+		staticRoll = math.clamp(staticRoll, bodyRoll - maxRoll, bodyRoll + maxRoll)
+		staticRoll = math.lerp(staticRoll, bodyRoll, onGround and math.clamp(vel:length(), 0, 1) or 0.25)
+	else
+		staticRoll = bodyRoll
+	end
+	
 	local fullRoll = bodyRoll - staticRoll
 	
 	-- Animation variables
@@ -153,7 +158,7 @@ function events.TICK()
 				strength = 2
 			end
 			
-			tail.rot.next.x = math.lerp(tail.rot.next.x, math.clamp(vel.y * strength * 10, -25, 25), math.clamp(vel:length() == 0 and 0.25 or vel:length() * 4, 0, 1))
+			tail.rot.next.x = math.lerp(tail.rot.next.x, math.clamp(vel.y * strength * 10, -25, 25), math.clamp(vel:length() == 0 and 0.25 or vel:length() * 2, 0, 1))
 			
 		elseif onGround then
 			
@@ -162,7 +167,7 @@ function events.TICK()
 			local groundBlock = world.getBlockState(groundPos)
 			local groundBoxes = groundBlock:getCollisionShape()
 			
-			local airPos   = tail.seg:partToWorldMatrix():apply(0, -10, -3)
+			local airPos   = tail.seg:partToWorldMatrix():apply(0, -10, -5)
 			local airBlock = world.getBlockState(airPos)
 			
 			local inGround = false
@@ -273,7 +278,7 @@ function events.RENDER(delta, context)
 		tail.rot.curr = math.lerp(tail.rot.prev, tail.rot.next, delta)
 		
 		-- Apply
-		tail.seg:rot(tail.rot.curr)
+		tail.seg:offsetRot(tail.rot.curr)
 		
 	end
 	

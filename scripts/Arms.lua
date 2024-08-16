@@ -52,6 +52,7 @@ function events.TICK()
 	local using       = player:isUsingItem()
 	local usingL      = activeness == leftActive and leftItem:getUseAction() or "NONE"
 	local usingR      = activeness == rightActive and rightItem:getUseAction() or "NONE"
+	local bow         = using and (usingL == "BOW" or usingR == "BOW")
 	local crossL      = leftItem.tag and leftItem.tag["Charged"] == 1
 	local crossR      = rightItem.tag and rightItem.tag["Charged"] == 1
 	
@@ -59,8 +60,8 @@ function events.TICK()
 	local shouldMove = pose.swim or pose.elytra or pose.crawl or pose.climb
 	
 	-- Targets
-	leftArm.target  = (armMove or shouldMove or leftSwing or ((crossL or crossR) or (using and usingL ~= "NONE"))) and 0 or 1
-	rightArm.target = (armMove or shouldMove or rightSwing or ((crossL or crossR) or (using and usingR ~= "NONE"))) and 0 or 1
+	leftArm.target  = (armMove or shouldMove or leftSwing  or bow or ((crossL or crossR) or (using and usingL ~= "NONE"))) and 0 or 1
+	rightArm.target = (armMove or shouldMove or rightSwing or bow or ((crossL or crossR) or (using and usingR ~= "NONE"))) and 0 or 1
 	
 	-- Tick lerps
 	leftArm.current   = leftArm.nextTick
