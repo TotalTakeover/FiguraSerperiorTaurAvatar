@@ -59,7 +59,7 @@ serperiorArmor.Armor.Boots
 
 -- Leather armor
 serperiorArmor.Materials.leather
-	:setTexture(textures["textures.armor.leatherArmor"])
+	:setTexture(textures["textures.armor.leatherArmor"] or textures["models.SerperiorTaur.leatherArmor"])
 	:addParts(serperiorArmor.Armor.Helmet,
 		pokemonParts.headArmorHelmet.Leather
 	)
@@ -88,92 +88,100 @@ serperiorArmor.Materials.leather
 
 -- Chainmail armor
 serperiorArmor.Materials.chainmail
-	:setTexture(textures["textures.armor.chainmailArmor"])
+	:setTexture(textures["textures.armor.chainmailArmor"] or textures["models.SerperiorTaur.chainmailArmor"])
 
 -- Iron armor
 serperiorArmor.Materials.iron
-	:setTexture(textures["textures.armor.ironArmor"])
+	:setTexture(textures["textures.armor.ironArmor"] or textures["models.SerperiorTaur.ironArmor"])
 
 -- Golden armor
 serperiorArmor.Materials.golden
-	:setTexture(textures["textures.armor.goldenArmor"])
+	:setTexture(textures["textures.armor.goldenArmor"] or textures["models.SerperiorTaur.goldenArmor"])
 
 -- Diamond armor
 serperiorArmor.Materials.diamond
-	:setTexture(textures["textures.armor.diamondArmor"])
+	:setTexture(textures["textures.armor.diamondArmor"] or textures["models.SerperiorTaur.diamondArmor"])
 
 -- Netherite armor
 serperiorArmor.Materials.netherite
-	:setTexture(textures["textures.armor.netheriteArmor"])
+	:setTexture(textures["textures.armor.netheriteArmor"] or textures["models.SerperiorTaur.netheriteArmor"])
 
 -- Turtle helmet
 serperiorArmor.Materials.turtle
-	:setTexture(textures["textures.armor.turtleHelmet"])
+	:setTexture(textures["textures.armor.turtleHelmet"] or textures["models.SerperiorTaur.turtleHelmet"])
 
 -- Trims
+-- Bolt
+serperiorArmor.TrimPatterns.bolt
+	:setTexture(textures["textures.armor.trims.boltTrim"] or textures["models.SerperiorTaur.boltTrim"])
+
 -- Coast
 serperiorArmor.TrimPatterns.coast
-	:setTexture(textures["textures.armor.trims.coastTrim"])
+	:setTexture(textures["textures.armor.trims.coastTrim"] or textures["models.SerperiorTaur.coastTrim"])
 
 -- Dune
 serperiorArmor.TrimPatterns.dune
-	:setTexture(textures["textures.armor.trims.duneTrim"])
+	:setTexture(textures["textures.armor.trims.duneTrim"] or textures["models.SerperiorTaur.duneTrim"])
 
 -- Eye
 serperiorArmor.TrimPatterns.eye
-	:setTexture(textures["textures.armor.trims.eyeTrim"])
+	:setTexture(textures["textures.armor.trims.eyeTrim"] or textures["models.SerperiorTaur.eyeTrim"])
+
+-- Flow
+serperiorArmor.TrimPatterns.flow
+	:setTexture(textures["textures.armor.trims.flowTrim"] or textures["models.SerperiorTaur.flowTrim"])
 
 -- Host
 serperiorArmor.TrimPatterns.host
-	:setTexture(textures["textures.armor.trims.hostTrim"])
+	:setTexture(textures["textures.armor.trims.hostTrim"] or textures["models.SerperiorTaur.hostTrim"])
 
 -- Raiser
 serperiorArmor.TrimPatterns.raiser
-	:setTexture(textures["textures.armor.trims.raiserTrim"])
+	:setTexture(textures["textures.armor.trims.raiserTrim"] or textures["models.SerperiorTaur.raiserTrim"])
 
 -- Rib
 serperiorArmor.TrimPatterns.rib
-	:setTexture(textures["textures.armor.trims.ribTrim"])
+	:setTexture(textures["textures.armor.trims.ribTrim"] or textures["models.SerperiorTaur.ribTrim"])
 
 -- Sentry
 serperiorArmor.TrimPatterns.sentry
-	:setTexture(textures["textures.armor.trims.sentryTrim"])
+	:setTexture(textures["textures.armor.trims.sentryTrim"] or textures["models.SerperiorTaur.sentryTrim"])
 
 -- Shaper
 serperiorArmor.TrimPatterns.shaper
-	:setTexture(textures["textures.armor.trims.shaperTrim"])
+	:setTexture(textures["textures.armor.trims.shaperTrim"] or textures["models.SerperiorTaur.shaperTrim"])
 
 -- Silence
 serperiorArmor.TrimPatterns.silence
-	:setTexture(textures["textures.armor.trims.silenceTrim"])
+	:setTexture(textures["textures.armor.trims.silenceTrim"] or textures["models.SerperiorTaur.silenceTrim"])
 
 -- Snout
 serperiorArmor.TrimPatterns.snout
-	:setTexture(textures["textures.armor.trims.snoutTrim"])
+	:setTexture(textures["textures.armor.trims.snoutTrim"] or textures["models.SerperiorTaur.snoutTrim"])
 
 -- Spire
 serperiorArmor.TrimPatterns.spire
-	:setTexture(textures["textures.armor.trims.spireTrim"])
+	:setTexture(textures["textures.armor.trims.spireTrim"] or textures["models.SerperiorTaur.spireTrim"])
 
 -- Tide
 serperiorArmor.TrimPatterns.tide
-	:setTexture(textures["textures.armor.trims.tideTrim"])
+	:setTexture(textures["textures.armor.trims.tideTrim"] or textures["models.SerperiorTaur.tideTrim"])
 
 -- Vex
 serperiorArmor.TrimPatterns.vex
-	:setTexture(textures["textures.armor.trims.vexTrim"])
+	:setTexture(textures["textures.armor.trims.vexTrim"] or textures["models.SerperiorTaur.vexTrim"])
 
 -- Ward
 serperiorArmor.TrimPatterns.ward
-	:setTexture(textures["textures.armor.trims.wardTrim"])
+	:setTexture(textures["textures.armor.trims.wardTrim"] or textures["models.SerperiorTaur.wardTrim"])
 
 -- Wayfinder
 serperiorArmor.TrimPatterns.wayfinder
-	:setTexture(textures["textures.armor.trims.wayfinderTrim"])
+	:setTexture(textures["textures.armor.trims.wayfinderTrim"] or textures["models.SerperiorTaur.wayfinderTrim"])
 
 -- Wild
 serperiorArmor.TrimPatterns.wild
-	:setTexture(textures["textures.armor.trims.wildTrim"])
+	:setTexture(textures["textures.armor.trims.wildTrim"] or textures["models.SerperiorTaur.wildTrim"])
 
 -- Config setup
 config:name("SerperiorTaur")
