@@ -23,5 +23,8 @@ This Figura avatar is a template designed around turning the user into a Serpero
 ### Libraries:
 - Section under construction
 
+### Origin Datapack:
+- [Serperiortaur Origin](https://github.com/PsychoBreadstick/Serperiortaur-Origin) (Created by Psycho Breadstick)
+
 ## Features
 Section under construction
