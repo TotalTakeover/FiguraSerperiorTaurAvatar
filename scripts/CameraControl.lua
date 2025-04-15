@@ -6,11 +6,19 @@ local color        = require("scripts.ColorProperties")
 
 -- Config setup
 config:name("SerperiorTaur")
-local camPos = config:load("CameraPos") or false
+local camPos       = config:load("CameraPos") or false
+local savedServers = config:load("CameraServers") or {}
+
+-- Get server id
+local serverData = client:getServerData()
+local serverId   = serverData.ip and serverData.ip or serverData.name or "none"
+
+-- Establish server, and set eyePos to server
+savedServers[serverId] = savedServers[serverId] or false
+local eyePos = savedServers[serverId]
 
 -- Variable setup
 local head    = pokemonParts.Head
-local eyePos  = false
 local headPos = 0
 
 -- Box check
@@ -162,6 +170,8 @@ end
 local function setEye(boolean)
 	
 	eyePos = boolean
+	savedServers[serverId] = boolean
+	config:save("CameraServers", savedServers)
 	
 end
 
@@ -206,6 +216,7 @@ t.eyePage = action_wheel:newAction()
 	:item(itemCheck("ender_pearl"))
 	:toggleItem(itemCheck("ender_eye"))
 	:onToggle(pings.setCameraEye)
+	:toggled(eyePos)
 
 -- Update action page info
 function events.TICK()
@@ -226,9 +237,7 @@ function events.TICK()
 			{text = "Eye Position Toggle\n\n", bold = true, color = color.primary},
 			{text = "Sets the eye position to match the avatar's head.\nRequires camera position toggle.\n\n", color = color.secondary},
 			{text = "WARNING: ", bold = true, color = "dark_red"},
-			{text = "This feature is dangerous!\nIt can and will be flagged on servers with anticheat!\nFurthermore, \"In Wall\" damage is possible. (The x-ray prevention will try to avoid this)\nThis setting will ", color = "red"},
-			{text = "NOT ", bold = true, color = "red"},
-			{text = "be saved between sessions for your safety.\n\nPlease use with extreme caution!", color = "red"}}
+			{text = "This feature is dangerous!\nIt can and will be flagged on servers with anticheat!\nFurthermore, \"In Wall\" damage is possible. (The x-ray prevention will try to avoid this)\nThis setting will only be saved on a \"Per-Server\" basis.\n\nPlease use with extreme caution!", color = "red"}}
 		)
 		:hoverColor(color.hover)
 		:toggleColor(color.active)
