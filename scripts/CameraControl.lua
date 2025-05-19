@@ -158,6 +158,13 @@ function events.POST_RENDER(delta, context)
 	end
 end
 
+function events.RENDER(delta, context)
+	
+	-- Disable head if first person mod is active
+	head:visible(context ~= "OTHER")
+	
+end
+
 -- Camera pos toggle
 local function setPos(boolean)
 	
