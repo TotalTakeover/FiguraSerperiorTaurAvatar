@@ -1,4 +1,4 @@
-# [Serperior Taur](https://github.com/TotalTakeover/FiguraSerperiorTaurAvatar)
+# [Serperior Taur](https://github.com/Taurs-with-Keyboards/FiguraSerperiorTaurAvatar)
 ### Version: v0.0.1
 This Figura avatar is a template designed around turning the user into a Serperor Taur.
 
