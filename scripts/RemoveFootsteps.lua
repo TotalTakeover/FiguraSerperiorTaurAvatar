@@ -10,6 +10,8 @@ function events.ON_PLAY_SOUND(id, pos, vol, pitch, loop, cat, path)
 	if (player:getPos() - pos):length() > 0.05 then return end
 	
 	-- If sound contains ".step", stop the actual step sound
-	if id:find(".step") then return true end
+	if id:find(".step") then
+		return true
+	end
 	
 end
